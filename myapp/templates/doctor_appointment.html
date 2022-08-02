@@ -1,0 +1,155 @@
+{% extends 'doctor_header.html' %}
+{% load static %}
+{% block contant %}
+
+<!DOCTYPE html>
+
+
+<html lang="en">
+<head>
+
+</head>
+
+<body id="top">
+
+<section class="page-title bg-1">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="block text-center">
+                  <h1 class="text-capitalize mb-5 text-lg">Appointment</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- contact form start -->
+{% if appointments %}
+
+<section class="contact-form-wrap section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="section-title text-center">
+                   </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12">
+          <!-- form message -->
+          {% if msg %}
+           <b style="color:blue;">{{msg}}</b>
+          {% endif %}
+
+         
+             <table border="5" width="100%" cellpadding="10px" cellspacing="10px">
+                <tr>
+                  <th>Sr. No</th>
+                  <th>Patient Name</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Health Issue</th>
+                  <th>prescription</th>
+                  <th>Status</th>
+                  <th>Update</th>
+                  <th>Patient report</th>
+
+                </tr>
+
+                {% for i  in appointments %}
+                                   {% if i.fees_status == 'paid' %}
+
+                <tr>
+                  <td>{{i.id}}</td>
+                  <td>{{i.patient.fname}}</td>
+                  <td>{{i.date}}</td>
+                  <td>{{i.time}}</td>
+                  <td>{{i.issue}}</td>
+                  <td><form method="POST" action="{% url 'appcept_request' pk=i.pk %}">
+                    {% csrf_token %}
+                      {% if i.prescription == "not given yet"%}
+                        <input type="submit" name="accepted" value="{{i.prescription}}">
+                      
+                      {% else %}<a href="{% url 'prescription_by_doctor' pk=i.pk %}">
+                        <input type="button" name="action" value="prescription"></a>
+
+                      {% endif %}
+
+                  </form>
+                  </td>
+                  <td>{{i.status}}</td>
+                  <td>
+
+                  <form method="POST" action="{% url 'appcept_request' pk=i.pk %}">
+                    {% csrf_token %}
+                      {% if i.status == "pendding"%}
+                        <input type="submit" name="accepted" value="accepted">
+                      {% elif i.status == 'accepted' %}
+                      <a href="{% url 'prescription_by_doctor' pk=i.pk %}">
+                        <input type="button" name="action" value="Complate"></a>
+                       {% elif i.status == 'complated' %}
+                
+                        <input type="button" name="action" value="Complate" disabled>
+                         
+                      {% else %}
+                        <input type="submit" name="accepted" value="cancle">
+
+
+                      {% endif %}
+
+                  </form>
+                                      
+                
+                  <form method="get" action="{% url 'doctor_appointment_cancel' pk=i.pk %}">
+                    {% csrf_token %}
+                    
+                      {% if i.status == "pendding"%}
+                          <input type="submit" name="action" value="cancle">
+                      
+                      {% endif %}
+
+                  </form>
+                                    </td>
+                
+                <td>
+                <form method="get" action="{% url 'doctor_patient_report' pk=i.pk %}">
+                  {% csrf_token %}
+                  <input type="submit" name="action" value="patient report" >
+                </form>
+              </td>
+                                {% endif %}
+                </tr>
+
+
+                {% endfor %}
+
+
+              </table>
+      </div>
+    </div>
+  </div>
+  <center>
+    <br>
+      <div class="clearfix">
+
+                         <button  class="cancelbtn"><a href="{% url 'index' %}"> Cancel</a></button>
+                       </div>
+            </center>
+{% else %}
+<div class="section-heading">
+  <center>   <br><br><br>            
+     <h2>No appointment </h2>
+      <div class="line"></div>
+              </div> 
+   </center>
+<br>
+{% endif %}
+
+</section>
+
+
+
+  </body>
+  </html>
+  {% endblock %}

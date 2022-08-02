@@ -1,0 +1,86 @@
+{% extends 'doctor_header.html' %}
+{% load static %}
+{% block contant %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body id="top">
+<section class="page-title bg-1">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="block text-center">
+                  <h1 class="text-capitalize mb-5 text-lg">office details</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- contact form start -->
+
+
+<section class="contact-form-wrap section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="section-title text-center">
+                   </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12">
+        <form id="contact-form" class="contact__form " method="POST" action="{% url 'doctor_office_details' %} " enctype="multipart/form-data"> 
+          {% csrf_token  %}
+          <!-- form message -->
+          {% if msg %}
+           <b style="color:blue;">{{msg}}</b>
+          {% endif %}
+         
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <input name="doctor_deegre"  type="text" class="form-control" placeholder="Your degree" required value={{doctor_profile.doctor_deegre}} >
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <input name="doctor_speciality"  type="text" class="form-control" placeholder="Your speciality"required value={{doctor_profile.doctor_speciality}} >
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <input name="doctor_fee"  type="text" class="form-control" placeholder="Your fees" required value={{doctor_profile.doctor_fee}} >
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <input name="doctor_start_time"  type="text" class="form-control" placeholder="Your Open time" required value="{{doctor_profile.doctor_start_time}}">
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <input name="doctor_end_time"  type="text" class="form-control" placeholder="Your End time" required value="{{doctor_profile.doctor_end_time}}">
+              </div>
+            </div>
+           <div class="col-lg-6">
+              <div class="form-group">
+                <textarea name="doctor_address"  class="form-control" rows="4" placeholder="Your address" required>{{doctor_profile.doctor_address}}</textarea><br>
+              </div>
+            </div>
+          <div><center>
+            <input class="btn btn-main btn-round-full" name="submit" type="submit" value=" submit"></input></center>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+  </body>
+  </html>
+  {% endblock %}

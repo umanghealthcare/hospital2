@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+
+<!--
+ // WEBSITE: https://themefisher.com
+ // TWITTER: https://twitter.com/themefisher
+ // FACEBOOK: https://www.facebook.com/themefisher
+ // GITHUB: https://github.com/themefisher/
+-->
+
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  ================================================== -->
+  <meta charset="utf-8">
+  <title>Novena- Health Care &amp; Medical template</title>
+
+  <!-- Mobile Specific Metas
+  ================================================== -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Health Care Medical Html5 Template">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="author" content="Themefisher">
+  <meta name="generator" content="Themefisher Novena HTML Template v1.0">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.png'%}" />
+
+  <!-- 
+  Essential stylesheets
+  =====================================-->
+  <link rel="stylesheet" href="{% static 'plugins/bootstrap/bootstrap.min.css'%}">
+  <link rel="stylesheet" href="{% static 'plugins/icofont/icofont.min.css'%}">
+  <link rel="stylesheet" href="{% static 'plugins/slick-carousel/slick/slick.css'%}">
+  <link rel="stylesheet" href="{% static 'plugins/slick-carousel/slick/slick-theme.css'%}">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="{% static 'css/style.css'%}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> 
+
+</head>
+
+<body id="top">
+
+<header>
+  <div class="header-top-bar">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <ul class="top-bar-info list-inline-item pl-0 mb-0">
+            <li class="list-inline-item"><a href="mailto:support@gmail.com"><i class="icofont-support-faq mr-2"></i>umang@gmail.com</a></li>
+            <li class="list-inline-item"><i class="icofont-location-pin mr-2"></i>Address Ujala circle Ahmedabad </li>
+          </ul>
+        </div>
+        <div class="col-lg-6">
+          <div class="text-lg-right top-right-bar mt-2 mt-lg-0">
+            <a href="tel:+23-345-67890">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+          <center>
+<br>
+        <img src="{% static 'images/logo.png'%}" alt="" class="img-fluid">
+  </center>
+</header>
+
+
+<section class="contact-form-wrap section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="section-title text-center">
+          <h2 class="text-md mb-2">Prescription</h2>
+          <div class="divider mx-auto my-4"></div>
+          
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12"> 
+          {% csrf_token %}
+          <!-- form message -->
+          {% if msg %}
+          <b style="color:blue;">{{msg}}</b>
+          {% endif %}
+       
+          <div class="row">
+            <div class="col-lg-6">
+              <h6>Doctor name </h6>
+              <div class="form-group">
+                <input name="name" id="name" type="text" class="form-control" value="{{appointments.doctor.doctor.fname}}  {{appointments.doctor.doctor.lname}}">
+              </div>
+            </div>
+
+            <div class="col-lg-6">
+              <h6>Patien name </h6>
+
+              <div class="form-group">
+                <input name="email" id="email" type="text" class="form-control" value="{{appointments.patient.fname}}  {{appointments.patient.lname}}">
+              </div>
+            </div>
+             </div>
+
+          <div class="form-group-2 mb-4">
+              <h6> prescription</h6>
+
+            <textarea name="prescription" id="message" class="form-control" rows="8" placeholder="Prescription by doctor" required>{{appointments.prescription}}</textarea>
+          </div>
+
+          <div>
+            <a href="{% url 'myappointment' %}">
+            <input class="btn btn-main btn-round-full" name="button" type="button" value="Cancle"></input></a>
+            <input class="btn btn-main btn-round-full" type="button" name="action" onclick='window.print()' value="print"></button>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  </body>
+  </html>

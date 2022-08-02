@@ -1,0 +1,146 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block contant %}
+
+<!DOCTYPE html>
+
+
+<html lang="en">
+<head>
+<style>
+  th, td {
+  border-style: groove;
+}
+</style>
+
+</head>
+
+<body>
+
+<section class="page-title bg-1">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="block text-center">
+                  <h1 class="text-capitalize mb-5 text-lg">My appoiment</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% if appointments %}
+<section class="contact-form-wrap section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12">
+          
+             <table border="8" width="100%" cellpadding="10px" cellspacing="10px">
+                <tr style="color:black;">
+                  <th>Sr. No</th>
+                  <th style="color:black;">Doctor Name</th>
+                  <th style="color:black;">Patient Name</th>
+                  <th style="color:black;">Date</th>
+                  <th style="color:black;">Time</th>
+                  <th style="color:black;">Health Issue</th>
+                  <th style="color:black;">prescription</th>
+                  <th style="color:black;">status</th>
+                  <th style="color:black;">Docotr fees </th>
+                  <th style="color:black;">pay</th>
+                  <th style="color:black;">button</th>
+                </tr>
+            {% for i in appointments %}
+                <tr>
+                  <td style="color:black;">{{i.id}}</td>
+                  <td style="color:blue;">{{i.doctor.doctor.fname}}</td>
+                  <td style="color:blue;">{{i.patient.fname}}</td>
+                  <td style="color:blue;">{{i.date}}</td>
+                  <td style="color:blue;">{{i.time}}</td>
+                  <td style="color:blue;">{{i.issue}}</td>
+          <!-- start prescription --->
+
+                  <td style="color:blue;">
+                    {% if i.prescription == "not given yet"%}
+                          {{i.prescription}}                        
+                    {% else %}
+                          <a href="{% url 'prescription_by_doctor_patient' pk=i.pk %}">
+                        <input class=" btn-round-full" type="button" name="action" value="prescription"></a>
+
+                    {% endif %}
+</td>
+          <!-- end prescription --->
+
+  <!-- status   start  --->
+    <td>{{i.status}} </td>
+  <!--  status  end  --->
+
+          <!-- start fees --->
+              <th style="color:black;">{{i.doctor.doctor_fee}}</th>
+          <!-- end fees --->
+
+
+          <!-- start pay fees --->
+
+                <th>
+                  <form action="{% url 'pay' pk=i.pk %}" method="POST">
+                          {% csrf_token %}
+                    {% if i.fees_status == 'pendding' %}
+                      <button style='color: blue;' ><input type="hidden"  value="{{i.doctor.doctor_fee}}" name="amount"> payfees</button>
+                    {% elif i.status == 'cancel' %}
+                      <button style='color: blue;' ><input type="hidden"  value="{{i.doctor.doctor_fee}}" name="amount"> payfees</button>
+                    {% elif i.status == 'cancel by patient' %}
+                      <input type="button"  value="payfees" name="amount" disabled> 
+
+                    {% else %}
+                         <input type="submit" style="color:black;" name="action" value="{{i.fees_status}}" disabled>
+
+                    {% endif %}
+                      
+                  </form>
+                    
+                </th>
+          <!--end  start fees --->
+
+  <!-- cancel  start  --->
+
+<th>
+  {% if i.status == 'complated' %}
+    <a href="{% url 'print_appointment' pk=i.pk %}">
+    <input type="button" name="action" style="color:black"; value="print" ></a>
+
+  {% elif i.status == 'approved' %}
+  {% elif i.status == 'cancel by patient'%}
+    <input type="button" name="action" value="cancle"disabled>
+  {% elif i.status == 'canceled by doctor' %}
+  <input type="button"  value="action" name="cancle" disabled> 
+
+
+  {% else %}
+    <a href="{% url 'patient_appointments_cancel' pk=i.pk %}">
+    <input type="button" name="action" value="cancle"></a>
+
+{% endif %}
+  <!-- cancel  end  --->
+
+</th>
+
+                </tr>
+                {% endfor %}
+
+              </table>
+      </div>
+    </div>
+  </div>
+  <br>
+  <center>
+<a href="{% url 'index'%}">            
+  <input class="btn btn-main-2 btn-round-full" name="button" type="cancle" value="Cancle"></input>
+</a>
+</center>
+</section>
+
+{% endif %}
+  </body>
+  </html>
+  {% endblock %}
